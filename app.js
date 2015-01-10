@@ -5,14 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-
+var express = require('express');
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -22,8 +18,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+
+/*ROUTES*/
+app.get('/', function(req, res) {
+  //res.render('index', { title: 'Express' });
+	res.sendFile('/home/ec2-user/reSearch/public/index.html')
+});
+app.get('/test', function(req, res) {
+	res.sendFile("/home/ec2-user/reSearch/public/test.html");
+});
+
+app.post('/hello', function(req, res) {
+	var like = req.body.like
+		title= req.body.title
+	res.json({title:"BIG TITS",abstract:"LOREM IPSUM BITCH TITS"});
+	console.log("DID I LIKE THAT STUBB: " + like)
+});
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
