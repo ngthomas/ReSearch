@@ -30,7 +30,7 @@ Search Pubmed for publication, by title / authors
 return pubmed id(s)
 """
 def search_pubmed(gs_item):
-    handle = Entrez.esearch(db="pubmed", term=gs_item.title, field="Title")
+    handle = Entrez.esearch(db="pubmed", term=gs_item.title, field="Title", retmax=2)
     record = Entrez.read(handle)
     pmids = record["IdList"]
     return pmids
@@ -67,6 +67,52 @@ def get_pubmed(pmid):
     return PubMedItem(title, abstract, author_lst, aff_lst)
 
 
+
+"""
+Retrieve list of PubMed ids with datasets in GEO
+#
+# The following method is broken - does not retrieve PubMed ids for a limited number of GEO ids,
+# errors out > 10K results!
+# http://www.ncbi.nlm.nih.gov/geo/info/geo_paccess.html#ExampleIV
+#
+# Now using esearch to get all GEO ids first,
+# then post them in batches to a WebEnv on server,
+# the use the WebEnv to run the PubMed id query for each batch.
+# 
+"""
+def get_pubmed_for_geo():
+    # first get all the datasets from GEO
+    hnd_1 = Entrez.esearch(db="gds", term="(gse[ETYP] OR gds[ETYP])",
+        retstart=0, retmax=100000, usehistory="y")
+    rec_1 = Entrez.read(hnd_1)
+    id_lst = rec_1["IdList"]
+    pmid_set = set()
+    # request data in batches
+    step = 100
+    # for i in range(0, 100, step):
+    for i in range(0, len(id_lst), step):
+        # print i
+        idl = id_lst[i : (i+step)]
+        # print idl[0]
+        # post the list to WebEnv
+        hnd_2 = Entrez.epost(db="gds", id=",".join(idl))
+        rec_2 = Entrez.read(hnd_2)
+        key = rec_2['QueryKey']
+        env = rec_2['WebEnv']
+        # then retrieve the Pubmed ids
+        # http://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=gds&db=pubmed&query_key=X&WebEnv=ENTER_WEBENV_PARAMETER_HERE
+        hnd_3 = Entrez.elink(dbfrom="gds", db="pubmed", query_key=key, WebEnv=env)
+        rec_3 = Entrez.read(hnd_3)
+        #
+        data = rec_3[0]['LinkSetDb'][0]['Link']
+        pmidl = [ data[i]["Id"] for i in range(len(data)) ]
+        # print pmidl
+        pmid_set = pmid_set.union(pmidl)
+    #
+    # print pmid_set
+    return list(pmid_set)
+
+
 """
 Recognize biomedical ontology terms in text
 """
@@ -79,8 +125,6 @@ def annotate(text):
         ann = js[i].get("annotations")[0]["text"]
         ann_lst.append(ann.strip())
     return list(set(ann_lst))
-
-
 
 
 
@@ -98,8 +142,15 @@ def test_1():
     print "Annotated terms: '{0}'\n".format(", ".join(ann_lst))
 
 
+def test_2():
+    #
+    pml = get_pubmed_for_geo()
+    pml = sorted(pml)
+    print "\n".join(pml)
+
+
 def main():
-    test_1()
+    test_2()
 
 
 if __name__ == "__main__":
