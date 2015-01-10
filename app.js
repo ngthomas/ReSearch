@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var exec = require('child_process').exec;
 var express = require('express');
 var app = express();
 
@@ -24,22 +24,37 @@ app.get('/', function(req, res) {
   //res.render('index', { title: 'Express' });
 	res.sendFile('/home/ec2-user/reSearch/public/index.html')
 });
-app.get('/test', function(req, res) {
-	res.sendFile("/home/ec2-user/reSearch/public/test.html");
+//hi
+
+var stack= new Array();
+stack.push({journal:"Journal of lies",title:"I AM AWSOME",author:"Robert Shelansky, John Smith",abstract:"This is about me"})
+stack.push({journal:"Journal of truth",title:"",author:"",abstract:""})
+stack.push({journal:"Journal of lopsided lollipops",title:"",author:"",abstract:""})
+
+app.post('/relevant', function(req, res) {
+	console.log("STUBB: " + JSON.stringify(req.body))
+	article=stack.pop()
+	console.log(article)
+	res.json(article)
+});
+app.post('/main-search', function(req, res) {
+	console.log("SEARCH: " + JSON.stringify(req.body))
+	console.log("query is " + req.body.value)
+	exec("echo 'I AM THE MAN'",function(error, stdout,stderr) {
+		console.log('stdout: ' +stdout);
+		console.log('stderr: ' +stderr);
+		if (error !== null) {
+			console.log('exec error: ' + error);
+		}
+	});
+	res.json(req.body)
 });
 
-app.post('/hello', function(req, res) {
-	var like = req.body.like
-		title= req.body.title
-	res.json({title:"BIG TITS",abstract:"LOREM IPSUM BITCH TITS"});
-	console.log("DID I LIKE THAT STUBB: " + like)
-});
-
-
-
+app.set('view engine', 'jade')
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+    res.send("404 error")
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -52,10 +67,8 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+        res.send(err.status)
+    
     });
 }
 
@@ -63,7 +76,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.send('error', {
         message: err.message,
         error: {}
     });

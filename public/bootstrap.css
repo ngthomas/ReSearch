@@ -6332,37 +6332,49 @@ button.close {
 .card {
   padding: 2em;
   background: #ddd;
-  min-height: 400px;
 }
-.relevant {
+.paper {
+  height: 20em;
+  overflow-y: scroll;
+}
+.buttons {
+  min-height: 140px;
+}
+#relevant {
   color: #bbb;
   margin: auto;
   margin-top: 0;
   display: table;
-  font-size: 6em;
+  font-size: 5em;
 }
-.relevant:hover {
+#relevant:hover {
   color: #2C8437;  
 }
-.not-relevant {
+#irrelevant {
   color: #bbb;
   margin: auto;
   margin-top: 0;
   display: table;
-  font-size: 6em;
+  font-size: 5em;
 }
-.not-relevant:hover {
+#irrelevant:hover {
   color: #A8383B;
 }
-.skip {
+#skip {
   color: #bbb;
   margin: auto;
   margin-top: 0;
   display: table;
-  font-size: 6em;
+  font-size: 5em;
 }
-.skip:hover {
+#skip:hover {
   color: #444;
 }
-
+.main {
+  padding-top: 5em;
+}
+.home-navbar {
+  background: #444;
+  color: #666;
+}
 /*# sourceMappingURL=bootstrap.css.map */

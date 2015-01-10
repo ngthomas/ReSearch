@@ -22,35 +22,42 @@
   </head>
 
   <body>
+    <div class="navbar navbar-default home-navbar">
+      Navbar
+    </div>
     <div class="container">
-		<div class="row">
-			<form class="navbar-form" role="search">
-			    <div class="input-group">
-			        <input type="text" class="form-control" placeholder="Explore papers with any query">
-			        <div class="input-group-btn">
-                		<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-            		</div>
-			    </div>
-			</form>
-		</div>
-
+	<div class="row">
+		<form class="navbar-form" id="main-search" role="search" method="post">
+		    <div class="input-group">
+		<input name="search" type="text" class="form-control" placeholder="Explore papers with any query" autofocus></input>
+		        <div class="input-group-btn">
+				<button class="btn btn-default" type="submit">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+        		</div>
+		    </div>
+		</form>
+	</div>
+	
     <div class="row">
       <div class="card">
         <div class="paper">
           <h5 id="paper-journal">Journal of Compelling Abstracts</h5>
           <h3 id="paper-title"> This is a card / Paper title</h3>
           <p id="paper-authors">Compelling Author, Thomas Ng, Robert R.S. Shelansky</p>
-          <p id="paper-abstract"> This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract. </p>
+          <p id="paper-abstract"> This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract. This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract. This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract. This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract. This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.</p>
         </div>
         <hr>
-        <div class="col-md-4 col-sm-4 col-xs-4">
-          <span class="glyphicon glyphicon-ok relevant"></span>
-        </div>
-        <div class="col-md-4 col-sm-4 col-xs-4">
-          <span class="glyphicon glyphicon-forward skip"></span>
-        </div>
-        <div class="col-md-4 col-sm-4 col-xs-4">
-          <span class="glyphicon glyphicon-remove not-relevant"></span>
+        <div class="buttons">
+          <div class="col-md-4 col-sm-4 col-xs-4">
+            <span class="glyphicon glyphicon-ok" id="relevant" title="This paper is relevant"></span>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-4">
+            <span class="glyphicon glyphicon-forward" id="skip" title="View next paper"></span>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-4">
+            <span class="glyphicon glyphicon-remove" id="irrelevant" title="Not relevant at all"></span>
+          </div>
         </div>
       </div>
     </div>
@@ -63,6 +70,8 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="bootstrap.js"></script>
+    <script src="cards.js"></script>
+    <script src="search.js"></script>
   </body>
 </html>
 
