@@ -4,6 +4,9 @@ Entrez.email = 'A.N.Other@example.com'
 import requests
 
 
+"""
+Parse text from Google Scholar data
+"""
 class GScholarItem:
     def __init__(self, title, authors="", abstract=""):
         self.title = title
@@ -11,6 +14,9 @@ class GScholarItem:
         self.abstract = abstract
 
 
+"""
+PubMed data for a publication
+"""
 class PubMedItem:
     def __init__(self, title, abstract, author_lst, affil_lst):
         self.title = title
@@ -62,6 +68,7 @@ def get_pubmed(pmid):
 
 
 """
+Recognize biomedical ontology terms in text
 """
 def annotate(text):
     url = "http://data.bioontology.org/annotator?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb&text={0}".format(text)
