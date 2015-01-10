@@ -89,7 +89,7 @@ def get_pubmed_for_geo():
     pmid_set = set()
     # request data in batches
     step = 100
-    # for i in range(0, 100, step):
+    # for i in range(0, 100, 10):
     for i in range(0, len(id_lst), step):
         # print i
         idl = id_lst[i : (i+step)]
@@ -106,10 +106,9 @@ def get_pubmed_for_geo():
         #
         data = rec_3[0]['LinkSetDb'][0]['Link']
         pmidl = [ data[i]["Id"] for i in range(len(data)) ]
-        # print pmidl
+        print "\n".join(set(pmidl))
         pmid_set = pmid_set.union(pmidl)
     #
-    # print pmid_set
     return list(pmid_set)
 
 
@@ -146,7 +145,7 @@ def test_2():
     #
     pml = get_pubmed_for_geo()
     pml = sorted(pml)
-    print "\n".join(pml)
+    # print "\n".join(pml)
 
 
 def main():
