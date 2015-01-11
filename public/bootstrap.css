@@ -3835,7 +3835,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: relative;
   min-height: 50px;
-  margin-bottom: 20px;
   border: 1px solid transparent;
 }
 @media (min-width: 768px) {
@@ -3945,7 +3944,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   float: left;
   height: 50px;
   padding: 15px 15px;
-  font-size: 18px;
+  font-size: 2em;
   line-height: 20px;
 }
 .navbar-brand:hover,
@@ -4163,9 +4162,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   background-color: #f8f8f8;
   border-color: #e7e7e7;
 }
-.navbar-default .navbar-brand {
-  color: #777;
-}
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
   color: #5e5e5e;
@@ -4175,11 +4171,11 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   color: #777;
 }
 .navbar-default .navbar-nav > li > a {
-  color: #777;
+  color: #F6FBFE;;
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
-  color: #333;
+  color: #4292C6;
   background-color: transparent;
 }
 .navbar-default .navbar-nav > .active > a,
@@ -4264,7 +4260,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 }
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:focus {
-  color: #fff;
+  color: #4292C6;
   background-color: transparent;
 }
 .navbar-inverse .navbar-text {
@@ -6337,47 +6333,66 @@ button.close {
   height: 20em;
   overflow-y: scroll;
 }
+#paper-abstract{
+  text-align: justify;
+}
 .buttons {
-  min-height: 140px;
+  height: 8em;
+  margin-top: 0.5em;
+  background: #9ECAE1;
+  line-height: 1.5em;
 }
 #relevant {
-  color: #bbb;
+  color: #F6FBFE;
   margin: auto;
   margin-top: 0;
   display: table;
   font-size: 5em;
+  line-height: 1.5em;
 }
 #relevant:hover {
   color: #2C8437;  
 }
 #irrelevant {
-  color: #bbb;
+  color: #F6FBFE;
   margin: auto;
   margin-top: 0;
   display: table;
   font-size: 5em;
+  line-height: 1.5em;
 }
 #irrelevant:hover {
   color: #A8383B;
 }
 #skip {
-  color: #bbb;
+  color: #F6FBFE;
   margin: auto;
   margin-top: 0;
   display: table;
   font-size: 5em;
+  line-height: 1.5em;
 }
 #skip:hover {
-  color: #444;
+  color: #4292C6;
 }
 .main {
   padding-top: 5em;
 }
 .home-navbar {
   background: #9ECAE1;
+  font-size: 1.5em;
   color: #F6FBFE;
 }
 .home-navbar > a {
   color: #F6FBFE;
 }
+.brand {
+  font-size: 1.5em;
+  color: #F6FBFE;
+}
+.brand:hover {
+  text-decoration: none;
+  color: #4292C6;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */
