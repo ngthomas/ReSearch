@@ -159,6 +159,7 @@ import os
 import sys
 import re
 import HTMLParser
+import urllib2
 
 try:
     # Try importing for Python 3
@@ -257,15 +258,16 @@ class ScholarArticle(object):
             'title':         [None, 'Title',          0],
             'url':           [None, 'URL',            1],
             'year':          [None, 'Year',           2],
-			'author':		 [None, 'Author',		  3],
-            'num_citations': [0,    'Citations',      4],
-            'num_versions':  [0,    'Versions',       5],
-            'cluster_id':    [None, 'Cluster ID',     6],
-            'url_pdf':       [None, 'PDF link',       7],
-            'url_citations': [None, 'Citations list', 8],
-            'url_versions':  [None, 'Versions list',  9],
-            'url_citation':  [None, 'Citation link', 10],
-            'excerpt':       [None, 'Excerpt',       11],
+	    'author':		 [None, 'Author',		  3],
+            'journal_name':  [None, 'Journal', 4],
+            'num_citations': [0,    'Citations',      5],
+            'num_versions':  [0,    'Versions',       6],
+            'cluster_id':    [None, 'Cluster ID',     7],
+            'url_pdf':       [None, 'PDF link',       8],
+            'url_citations': [None, 'Citations list', 9],
+            'url_versions':  [None, 'Versions list',  10],
+            'url_citation':  [None, 'Citation link', 11],
+            'excerpt':       [None, 'Excerpt',       12],
         }
 
         # The citation data in one of the standard export formats,
@@ -305,6 +307,7 @@ class ScholarArticle(object):
             if item[0] is not None:
                 if not isinstance(item[0], int):
                     item[0] = h.unescape(item[0])
+                    item[0] = item[0].replace('"', "'")
                 res.append('%s----%s' % (item[1], item[0]))
         return '\n'.join(res)
 
@@ -527,6 +530,8 @@ class ScholarArticleParser120201(ScholarArticleParser):
                 #author = self.author_re.findall(tag.text)
                 self.article['year'] = year[0] if len(year) > 0 else None
                 self.article['author'] = gs_split[0] if len(gs_split) > 0 else None
+                journ_N = gs_split[1].split(",")
+                self.article['journal_name'] = journ_N[0] if len(gs_split) > 0 else None
 
             if tag.name == 'div' and self._tag_has_class(tag, 'gs_fl'):
                 self._parse_links(tag)
@@ -587,6 +592,8 @@ class ScholarArticleParser120726(ScholarArticleParser):
                     field_split = tag.find('div', {'class': 'gs_a'}).text.split("-")
                     self.article['year'] = year[0] if len(year) > 0 else None
                     self.article['author'] = field_split[0]
+                    journ_N = field_split[1].split(",")
+                    self.article['journal_name'] = journ_N[0]
 					
 
                 if tag.find('div', {'class': 'gs_fl'}):
@@ -927,7 +934,10 @@ class ScholarQuerier(object):
                 ScholarUtils.log('warn', 'could not load cookies file: %s' % msg)
                 self.cjar = MozillaCookieJar() # Just to be safe
 
-        self.opener = build_opener(HTTPCookieProcessor(self.cjar))
+        #self.opener = build_opener(HTTPCookieProcessor(self.cjar))
+        proxy = urllib2.ProxyHandler({'http': '198.86.88.2:8080'})
+        self.opener = urllib2.build_opener(proxy)
+        urllib2.install_opener(self.opener)
         self.settings = None # Last settings object, if any
 
     def apply_settings(self, settings):
