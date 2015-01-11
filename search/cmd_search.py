@@ -53,7 +53,7 @@ def handle_request(req, fn, fn_bin="keyw_d.bin", fn_geo_txt="geo_pmids_unique.tx
     print list(geo_pmids)[0:4]
 
     # read keywords in
-    keyw_d = []
+    keyw_d = {}
     try:
         keyw_d = pickle.load(open(fn_bin, "rb"))
     except:
