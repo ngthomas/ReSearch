@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var exec = require('child_process').exec;
+var process = require('child_process');
 var express = require('express');
 var app = express();
 
@@ -31,9 +31,9 @@ app.get('/', function(req, res) {
 	res.sendFile('/home/ec2-user/reSearch/public/index.html')
 });
 
-var rated=    new Array();
-var search=   new Array();
-var keywords= new Array();
+var rated_data=    new Array();
+var search_data=   new Array();
+var keywords_data= new Array();
 
 
 app.post('/relevant', function(req, res) {
@@ -43,20 +43,47 @@ app.post('/relevant', function(req, res) {
 	res.json(article)
 });
 
-function search(keywords){
-	exec("echo 'I AM THE MAN'",function(error, stdout,stderr) {
-		console.log("SEARCH: " + JSON.stringify(req.body))
-		console.log("query is " + req.body.value)
-		if (error !== null) {
-			console.log('exec error: ' + error);
+function main_search(req,res){
+	keywords= req.body.value;
+
+	process.exec("/usr/bin/python /home/ec2-user/reSearch/search/search_core.py -q '" + keywords+"'", function (error,stdout,stderr){
+		out=JSON.parse(stdout);
+		console.log("arts"+out)
+		for (x in out.articles){
+			console.log("search.out" + out.articles[x])
+			search_data.push(out.articles[x]);
 		}
+		if(error !== null){
+			console.log('exec error', stderr)
+		}
+		console.log("array"  + search_data.length);
+		res.json(search_data.pop());
 	});
 
+//	var python = process.spwan('echo', "/home/robert/local/reSearch/search/adrian.py");
+//	python.stdout.on('data', function(){output += data});
+//	python.on('close', function(code){
+//		if (code !== 0) {  
+//			console.log("NOOOOO!!!!")
+//		}
+//		console.log(output)
+//	});
+	
 }
 
+
+
 app.post('/main-search', function(req, res) {
-	res.json(req.body)
+	console.log("SEARCH: " + JSON.stringify(req.body));
+	console.log("query is " + req.body.value);
+	main_search(req,res);
 });
+
+app.post('/papers', function(req, res) {
+	console.log("Requested papers");
+	var papers = {"nice things": "HI I AM PAPERS"};
+	res.json(papers);
+})
 
 app.set('view engine', 'jade')
 

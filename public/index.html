@@ -37,7 +37,7 @@
           <ul class="nav navbar-nav navbar-right">
             <!-- Somacro icons downloaded from vervex.deviantart.com -->
             <li><a href="login.html">Login</a></li>
-            <li><a id="liked" href="relevant.html">Papers (0)</a></li>
+            <li><span id="liked">Papers (0)</span></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -55,28 +55,63 @@
 		    </div>
 		</form>
 	</div>
-    <div class="row">
+    <div class="row" id="main-page">
       <div class="card" id="card">
         <div class="paper">
           <h5 id="paper-journal">University of California at Santa Cruz</h5>
           <h3 id="paper-title">reSearch: the paper recommendation app</h3>
           <p id="paper-authors">Brian Lin, Thomas Ng, Robert Shelansky, Adrian Bivol</p>
-          <p id="paper-abstract"><b>reSearch is </p>
+          <p id="paper-abstract"><b>reSearch</b> is an app that helps scientists find relevant papers using a recommendation system. Enter a search query, and you'll have the opportunity to tell us whether the results are relevant or not. Build a station that learns your preferences and subscribe to updates in your field.</p>
         </div>
       </div>
-        <div class="buttons">
-          <div class="col-md-4 col-sm-4 col-xs-4">
-            <span class="glyphicon glyphicon-ok" id="relevant" title="This paper is relevant"></span>
-          </div>
-          <div class="col-md-4 col-sm-4 col-xs-4">
-            <span class="glyphicon glyphicon-forward" id="skip" title="View next paper"></span>
-          </div>
-          <div class="col-md-4 col-sm-4 col-xs-4">
-            <span class="glyphicon glyphicon-remove" id="irrelevant" title="Not relevant at all"></span>
-          </div>
+      <div class="buttons" id="buttons" style="display:none">
+        <div class="col-md-4 col-sm-4 col-xs-4">
+          <span class="glyphicon glyphicon-ok" id="relevant" title="This paper is relevant"></span>
         </div>
+        <div class="col-md-4 col-sm-4 col-xs-4">
+          <span class="glyphicon glyphicon-forward" id="skip" title="View next paper"></span>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4">
+          <span class="glyphicon glyphicon-remove" id="irrelevant" title="Not relevant at all"></span>
+        </div>
+      </div>
     </div>
 
+    <div class="row" id="papers-page" style="display:none">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Title</th>
+              <th>Authors</th>
+              <th>Journal</th>
+              <th>Pub Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+            </tr>
+            <tr class="success">
+              <td>1</td>
+              <td>Mutational and fitness landscapes of an RNA virus revealed through population sequencing</td>
+              <td>Acevedo, Ashley, Brodsky, Leonid, Andino, Raul</td>
+              <td>Nature</td>
+              <td>4/29/14</td>
+            </tr>
+            <tr class="danger">
+              <td>2</td>
+              <td>Comparative analysis of RNA sequencing methods for degraded or low-input samples.</td>
+              <td>Adiconis, Xian, Borges-Rivera, Diego, Satija, Rahul, DeLuca, David S, Busby, Michele a, Berlin, Aaron M, Sivachenko, Andrey, Thompson, Dawn Anne, Wysoker, Alec, Fennell, Timothy, Gnirke, Andreas, Pochet, Nathalie, Regev, Aviv, Levin, Joshua Z</td>
+              <td>Nature Methods</td>
+              <td>5/6/2014</td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
     </div><!-- /.container -->
 

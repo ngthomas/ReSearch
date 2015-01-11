@@ -16,13 +16,13 @@ function createXHR(){
 	}
 }
 
-function fadeOut(n){
+function fadeOutPaper(n){
 	$("#paper-journal").fadeOut(n)
 	$("#paper-authors").fadeOut(n)
 	$("#paper-title").fadeOut(n)
 	$("#paper-abstract").fadeOut(n)
 }
-function fadeIn(n){
+function fadeInPaper(n){
 	$("#paper-journal").fadeIn(n)
 	$("#paper-authors").fadeIn(n)
 	$("#paper-title").fadeIn(n)
@@ -39,9 +39,12 @@ $(document).ready(function(){
 
 	var relevantXHR= createXHR();
 
+    var papersXHR = createXHR();
+
 	searchXHR.onreadystatechange=function(){
  		if (searchXHR.readyState==4 && searchXHR.status==200){
-   			card=JSON.parse(searchXHR.responseText);	
+   			card=JSON.parse(searchXHR.responseText);
+   			$("#buttons").fadeIn("400");
     		}
   	}
 
@@ -56,13 +59,24 @@ $(document).ready(function(){
 				$("#paper-title").html(card.title)
 				$("#paper-abstract").html(card.abstract)
 				$("#card").css('background', randomColor())
-				fadeIn("fast")
+				fadeInPaper("fast")
 			},100);
 			
     		}
   	}
 	
+    papersXHR.onreadystatechange=function() {
+    	if (papersXHR.readyState == 4 && papersXHR.status == 200) {
+			$("#papers-page").fadeIn("400")
+    	}
+    }
 
+    $("#liked").click(function() {
+		$("#main-page").fadeOut("400");
+		papersXHR.open("POST","papers",true);
+		papersXHR.setRequestHeader("Content-type","application/json");
+		papersXHR.send(post);
+    })
 	
 	$("#main-search").submit(function(e){
 		post=JSON.stringify($("#main-search").serializeArray()[0]);
@@ -89,7 +103,7 @@ $(document).ready(function(){
 		//relevent//notrelavent//skip
 	});
 	$("#skip").click(function(){
-		fadeOut("fast")
+		fadeOutPaper("fast")
 		relevantXHR.open("POST","relevant",true);
 		relevantXHR.setRequestHeader("Content-type", "application/json");
 		relevantXHR.send(JSON.stringify({"state":"skip","id":$("#paper-title").innerHTML}));

@@ -6352,6 +6352,7 @@ button.close {
 }
 #relevant:hover {
   color: #2C8437;  
+  cursor: hand;
 }
 #irrelevant {
   color: #F6FBFE;
@@ -6363,6 +6364,7 @@ button.close {
 }
 #irrelevant:hover {
   color: #A8383B;
+  cursor: hand;
 }
 #skip {
   color: #F6FBFE;
@@ -6374,6 +6376,7 @@ button.close {
 }
 #skip:hover {
   color: #4292C6;
+  cursor: hand;
 }
 .main {
   padding-top: 5em;
@@ -6394,5 +6397,14 @@ button.close {
   text-decoration: none;
   color: #4292C6;
 }
-
+#liked {
+  line-height: 20px;
+  padding: 15px;
+  display: block;
+  position: relative;
+}
+#liked:hover {
+  color: #4292C6;
+  cursor: hand;
+}
 /*# sourceMappingURL=bootstrap.css.map */
