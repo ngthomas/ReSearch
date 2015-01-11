@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from collections import defaultdict, OrderedDict
+from collections import defaultdict
 import pickle
 import operator
 import json
@@ -83,14 +83,16 @@ def handle_request(req, fn, fn_bin="keyw_d.bin", fn_geo_txt="geo_pmids_unique.tx
             keyw_d[t] += float(relev)
             
     # write keywords out
-    sort_x = sorted(keyw_d.items(), key=operator.itemgetter(1), reverse=True)
-    keyw_d = OrderedDict(sort_x)
-    print keyw_d
     pickle.dump(keyw_d, open(fn_bin, "wb"))
 
     # write json w/ top keywords
+    sort_items = sorted(keyw_d.items(), key=operator.itemgetter(1), reverse=True)
+    sort_keys = [k[0] for k in sort_items]
+    #
+    print [(k, keyw_d[k]) for k in sort_keys]
+    #
     with open(fn, 'w') as of:
-        json.dump(keyw_d.keys()[1:10], of)
+        json.dump(sort_keys[1:10], of)
     
     return keyw_d
 
