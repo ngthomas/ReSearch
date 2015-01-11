@@ -1,9 +1,0 @@
-{"id":"3",
-"keywords":["YOU","ARE","LAME"],
-"articles":[
-{"title":"E3 ubiquitin ligase Skp2 as an attractive target in cancer therapy.","id":"1","relevance":"1"},
-{"title":"Integrative network analysis of TCGA data for ovarian cancer.","id":"2","relevance":"1"},
-{"title":"TP53 codon 72 single nucleotide polymorphism in chronic lymphocytic leukemia.","id":"3","relevance":"1"},
-{"title":"crap_X_Y_Z_T_R_E","id":"3","relevance":"-1"}
-
-]}
