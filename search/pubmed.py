@@ -24,6 +24,7 @@ Search Pubmed for publication, by title / authors
 return pubmed id(s)
 """
 def search_pubmed(query):
+    query = ' OR '.join(query.split(' '))
     handle = Entrez.esearch(db="pubmed", term=query, retmax=10)
     record = Entrez.read(handle)
     pmids = record["IdList"]
@@ -79,7 +80,7 @@ def get_pubmed(pmids):
 def convertRecordsToJSON(records):
     xml_record_list = []
     for record in records:
-        xml_record = '{"Author":"' + ', '.join(record.authors) + '", "URL": "' + record.url + '", "Journal": "' + record.journal + '", "Title": "' + record.title + '", "Excerpt": "' + record.abstract + '", "Year": "' + record.year + '"}'
+        xml_record = '{"Author":"' + ', '.join(record.authors) + '", "URL": "' + record.url + '", "Journal": "' + record.journal + '", "Title": "' + record.title + '", "Excerpt": "' + record.abstract + '", "Year": "' + record.year +'"}'
         xml_record = smart_str(xml_record)
         xml_record_list.append(xml_record)
     return '{"articles": [' + ', '.join(xml_record_list) + ']}'

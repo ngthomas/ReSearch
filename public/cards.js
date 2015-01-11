@@ -85,6 +85,7 @@ $(document).ready(function(){
 			setTimeout(function(){
    				$("#paper-journal").html(card.Journal)
 				$("#paper-authors").html(card.Author)
+				$("#paper-year").html(card.Year)
 				$("#paper-title").html(card.Title)
 				$("#paper-abstract").html(card.Excerpt)
 				$("#card").css('background', randomColor())

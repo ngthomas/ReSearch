@@ -25,6 +25,8 @@ class GScholarItem:
             'Citations':0,
             'Excerpt':None,
             'Journal':None,
+            'State':0,
+	    'tags':0,
         }
     def add_attrs(self, feature, value):
         self.attrs[feature] = value

@@ -33,7 +33,7 @@ var viewed_data=   new Array();
 
 function main_search(callback){
 	keywords= keywords_data.toString();
-	//console.log("search: " + keywords);
+	console.log("search: " + keywords);
 	result_search = "";
 	child = process.exec("/usr/bin/python /home/ec2-user/reSearch/search/search_core.py -q '" + keywords+"'");
 	child.stdout.on('data', function(data){
@@ -41,7 +41,7 @@ function main_search(callback){
 	});
 	child.on('close', function(code){
 		//console.log('data: ' + result)
-		//console.log('closing code: ' + code);
+		console.log('closing code: ' + code);
 		search_data = JSON.parse(result_search).articles;
 		callback("Success");
 	});
@@ -68,13 +68,13 @@ function main_learn(callback){
 		result_learn = result_learn + data
 	});
 	child.on('close', function(code){
-		//console.log('closing code: ' + code)
-		//console.log("STUBB: Learn completed")
-		console.log("result: " + result_learn)
-		console.log("result: "+JSON.parse(result_learn))
-		//keywords_data= result_learn.join(",")
-		console.log(keywords_data)
-		callback("Success")
+		console.log('closing code: ' + code);
+		console.log("STUBB: Learn completed");
+		console.log("result: " + result_learn);
+		console.log("result: "+JSON.parse(result_learn));
+		keywords_data= JSON.parse(result_learn);
+		console.log("keywordsdata: "+keywords_data);
+		callback("Success");
 		main_search(function(e){
 			console.log("STUBB: UPDATED SEARCH")
 			LEARNING=false

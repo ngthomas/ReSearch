@@ -106,7 +106,7 @@ def picker(keyw_d):
     #
     #print [(k, keyw_d[k]) for k in sort_keys]
     #
-    wl = sort_keys[1:10]
+    wl = sort_keys[1:8]
     #wl.extend(req.keywords)
     #with open(fn, 'w') as of:
     return wl
