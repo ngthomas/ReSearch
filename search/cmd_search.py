@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from collections import defaultdict, OrderedDict
+import pickle
 import operator
 import json
 from pprint import pprint
@@ -36,11 +37,15 @@ def read_json(fn):
 
 """
 """
-def handle_request(req, fn):
+def handle_request(req, fn, fn_bin="keyw_d.bin"):
     # read GEO pubmed ids and filter/boost keywords based on that
 
     # read keywords in
     keyw_d = defaultdict(lambda: 0)
+    try:
+        keyw_d = pickle.load(open(fn_bin, "rb"))
+    except:
+        pass
     
     for a in req.articles:
         print a.title
@@ -55,11 +60,12 @@ def handle_request(req, fn):
                 keyw_d[t] += int(a.relevance)
             
     # write keywords out
-
-    # write json w/ top keywords
     sort_x = sorted(keyw_d.items(), key=operator.itemgetter(1), reverse=True)
     keyw_d = OrderedDict(sort_x)
     print keyw_d
+    pickle.dump(keyw_d, open(fn_bin, "wb"))
+
+    # write json w/ top keywords
     with open(fn, 'w') as of:
         json.dump(keyw_d.keys()[1:10], of)
     
