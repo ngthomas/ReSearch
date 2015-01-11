@@ -22,9 +22,10 @@ class GScholarItem:
 PubMed data for a publication
 """
 class PubMedItem:
-    def __init__(self, title, abstract, author_lst, affil_lst):
+    def __init__(self, title, abstract, journal, author_lst, affil_lst):
         self.title = title
         self.abstract = abstract
+        self.journal = journal
         self.author_lst = author_lst
         self.affil_lst = affil_lst
 
@@ -67,8 +68,10 @@ def get_pubmed(pmid):
         if len(aff_info) > 0:
             aff_lst.append(aff_info[0]['Affiliation'])
     #
+    journal = xml_data['MedlineCitation']['Article']['Journal']['Title']
+    #
     # print "{0} {1} {2}".format(abstract, ",".join(author_lst), ",".join(aff_lst))
-    return PubMedItem(title, abstract, author_lst, aff_lst)
+    return PubMedItem(title, abstract, journal, author_lst, aff_lst)
 
 
 
@@ -140,9 +143,10 @@ def test_1():
     pm_ids = search_pubmed(gs_item)
     pmid = pm_ids[0]
     print "PubMed id: '{0}'\n".format(pmid)
-    pm_rec = get_pubmed(pmid)
-    print "PubMed record: '{0}, {1}, {2}, {3}'\n".format(pm_rec.title, pm_rec.abstract, pm_rec.author_lst, pm_rec.affil_lst)
-    ann_lst = annotate(pm_rec.abstract)
+    pmr = get_pubmed(pmid)
+    print "PubMed record: {0}, {1}, {2}, {3}, {4}\n".format(pmr.title,
+        pmr.abstract, pmr.journal, pmr.author_lst, pmr.affil_lst)
+    ann_lst = annotate(pmr.abstract)
     print "Annotated terms: '{0}'\n".format(", ".join(ann_lst))
 
 
@@ -154,7 +158,7 @@ def test_2():
 
 
 def main():
-    test_2()
+    test_1()
 
 
 if __name__ == "__main__":
