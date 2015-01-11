@@ -31,13 +31,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/"><div style="font-size: 120%">reSearch</div></a>
+          <a class="brand" href="/">reSearch</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <!-- Somacro icons downloaded from vervex.deviantart.com -->
-            <li><a>Login</a></li>
-            <li>&bull;</li>
+            <li><a href="login.html">Login</a></li>
+            <li><a id="liked" href="relevant.html">Papers (0)</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -55,16 +55,15 @@
 		    </div>
 		</form>
 	</div>
-	
     <div class="row">
-      <div class="card">
+      <div class="card" id="card">
         <div class="paper">
-          <h5 id="paper-journal">Journal of Compelling Abstracts</h5>
-          <h3 id="paper-title"> This is a card / Paper title</h3>
-          <p id="paper-authors">Compelling Author, Thomas Ng, Robert R.S. Shelansky</p>
-          <p id="paper-abstract"> This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract. This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract. This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract. This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract. This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.This abstract is a very compelling abstract. Few abstracts compel you to read this abstract as well as this compelling abstract is able to compel you to read this compelling abstract.</p>
+          <h5 id="paper-journal">University of California at Santa Cruz</h5>
+          <h3 id="paper-title">reSearch: the paper recommendation app</h3>
+          <p id="paper-authors">Brian Lin, Thomas Ng, Robert Shelansky, Adrian Bivol</p>
+          <p id="paper-abstract"><b>reSearch is </p>
         </div>
-        <hr>
+      </div>
         <div class="buttons">
           <div class="col-md-4 col-sm-4 col-xs-4">
             <span class="glyphicon glyphicon-ok" id="relevant" title="This paper is relevant"></span>
@@ -76,7 +75,6 @@
             <span class="glyphicon glyphicon-remove" id="irrelevant" title="Not relevant at all"></span>
           </div>
         </div>
-      </div>
     </div>
 
 

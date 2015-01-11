@@ -8,6 +8,12 @@ var exec = require('child_process').exec;
 var express = require('express');
 var app = express();
 
+//used for testing
+var stack= new Array();
+stack.push({journal:"Journal of lies",title:"I AM AWSOME",author:"Robert Shelansky, John Smith",abstract:"This is about me"})
+stack.push({journal:"Journal of truth",title:"",author:"",abstract:""})
+stack.push({journal:"Journal of lopsided lollipops",title:"",author:"",abstract:""})
+
 
 
 // uncomment after placing your favicon in /public
@@ -24,12 +30,11 @@ app.get('/', function(req, res) {
   //res.render('index', { title: 'Express' });
 	res.sendFile('/home/ec2-user/reSearch/public/index.html')
 });
-//hi
 
-var stack= new Array();
-stack.push({journal:"Journal of lies",title:"I AM AWSOME",author:"Robert Shelansky, John Smith",abstract:"This is about me"})
-stack.push({journal:"Journal of truth",title:"",author:"",abstract:""})
-stack.push({journal:"Journal of lopsided lollipops",title:"",author:"",abstract:""})
+var rated=    new Array();
+var search=   new Array();
+var keywords= new Array();
+
 
 app.post('/relevant', function(req, res) {
 	console.log("STUBB: " + JSON.stringify(req.body))
@@ -37,16 +42,19 @@ app.post('/relevant', function(req, res) {
 	console.log(article)
 	res.json(article)
 });
-app.post('/main-search', function(req, res) {
-	console.log("SEARCH: " + JSON.stringify(req.body))
-	console.log("query is " + req.body.value)
+
+function search(keywords){
 	exec("echo 'I AM THE MAN'",function(error, stdout,stderr) {
-		console.log('stdout: ' +stdout);
-		console.log('stderr: ' +stderr);
+		console.log("SEARCH: " + JSON.stringify(req.body))
+		console.log("query is " + req.body.value)
 		if (error !== null) {
 			console.log('exec error: ' + error);
 		}
 	});
+
+}
+
+app.post('/main-search', function(req, res) {
 	res.json(req.body)
 });
 
