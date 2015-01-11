@@ -22,12 +22,12 @@ def read_json(fn):
     with open(fn) as jf:
         jd = json.load(jf)
         #
-        keyword_lst = jd['keywords']
+        keyword_lst = jd['Keywords']
         #
-        j_articles = jd['articles']
+        j_articles = jd['Articles']
         article_lst = []
         for a in j_articles:
-            gi = search.GScholarItem(a['title'], a['id'], abstract=a['abstract'], relevance=a['relevance'])
+            gi = search.GScholarItem(a['Title'], a['id'], abstract=a['Abstract'], relevance=a['Relevance'])
             article_lst.append(gi)
         #
     return Request(jd['id'], keyword_lst, article_lst)
@@ -90,8 +90,10 @@ def handle_request(req, fn, fn_bin="keyw_d.bin", fn_geo_txt="geo_pmids_unique.tx
     #
     print [(k, keyw_d[k]) for k in sort_keys]
     #
+    wl = sort_keys[1:10]
+    wl.extend(req.keywords)
     with open(fn, 'w') as of:
-        json.dump(sort_keys[1:10], of)
+        json.dump(wl, of)
     
     return keyw_d
 
