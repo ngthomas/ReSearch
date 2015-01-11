@@ -4,9 +4,10 @@ import pickle
 import operator
 import json
 from pprint import pprint
-
+import sys
 import search
 
+PATH="/home/ec2-user/reSearch/search/"
 
 class Request:
     def __init__(self, rid, keywords, articles):
@@ -19,24 +20,25 @@ class Request:
 Read JSON input data
 """
 def read_json(fn):
-    with open(fn) as jf:
-        jd = json.load(jf)
+    #with open(fn) as jf:
+    jd = json.load(fn)
         #
-        keyword_lst = jd['Keywords']
+    #keyword_lst = jd['Keywords']
+       #
+    keyword_lst=['1','2']
+    j_articles = jd['Articles']
+    article_lst = []
+    for a in j_articles:
+      gi = search.GScholarItem(a['Title'], abstract=a['Excerpt'], relevance=a['State'])
+      article_lst.append(gi)
         #
-        j_articles = jd['Articles']
-        article_lst = []
-        for a in j_articles:
-            gi = search.GScholarItem(a['Title'], a['id'], abstract=a['Abstract'], relevance=a['Relevance'])
-            article_lst.append(gi)
-        #
-    return Request(jd['id'], keyword_lst, article_lst)
+    return Request("1",keyword_lst, article_lst)
 
 
 
 """
 """
-def handle_request(req, fn, fn_bin="keyw_d.bin", fn_geo_txt="geo_pmids_unique.txt", fn_geo_bin="geo.bin"):
+def handle_request(req, fn_bin=PATH+"keyw_d.bin", fn_geo_txt=PATH+"geo_pmids_unique.txt", fn_geo_bin=PATH+"geo.bin"):
     # read GEO pubmed ids and filter/boost keywords based on that
     geo_pmids = set()
     try:
@@ -49,8 +51,8 @@ def handle_request(req, fn, fn_bin="keyw_d.bin", fn_geo_txt="geo_pmids_unique.tx
         # save it
         pickle.dump(geo_pmids, open(fn_geo_bin, "wb"))
     #
-    print len(geo_pmids)
-    print list(geo_pmids)[0:4]
+    #print len(geo_pmids)
+    #print list(geo_pmids)[0:4]
 
     # read keywords in
     keyw_d = {}
@@ -60,22 +62,22 @@ def handle_request(req, fn, fn_bin="keyw_d.bin", fn_geo_txt="geo_pmids_unique.tx
         pass
     
     for a in req.articles:
-        print a.title
-        pmidl = search.search_pubmed(a)
-        print pmidl
+        #print a.title
+        pmidl = search.search_pubmed(a.title)
+        #print pmidl
         # use google scholar abstract by default
         abstract = a.abstract
         if len(pmidl) > 0:
             relev = float(a.relevance)
             p = pmidl[0]
             if p in geo_pmids and relev > 0:
-                print "in_geo!"
+                #print "in_geo!"
                 relev *= 1.5
             pm = search.get_pubmed(p)
             abstract = pm.abstract
-        pprint(abstract)
+        #pprint(abstract)
         ann_lst = search.annotate(abstract)
-        print ann_lst
+        #print ann_lst
         for t in ann_lst:
             if t not in keyw_d:
                 keyw_d[t] = 0.0
@@ -85,18 +87,29 @@ def handle_request(req, fn, fn_bin="keyw_d.bin", fn_geo_txt="geo_pmids_unique.tx
     pickle.dump(keyw_d, open(fn_bin, "wb"))
 
     # write json w/ top keywords
+    #sort_items = sorted(keyw_d.items(), key=operator.itemgetter(1), reverse=True)
+    #sort_keys = [k[0] for k in sort_items]
+    #
+    #print [(k, keyw_d[k]) for k in sort_keys]
+    #
+    #wl = sort_keys[1:10]
+    #wl.extend(req.keywords)
+    #with open(fn, 'w') as of:
+    #json.dump(wl, fn)   
+    return keyw_d
+
+
+def picker(keyw_d):
+     # write json w/ top keywords
     sort_items = sorted(keyw_d.items(), key=operator.itemgetter(1), reverse=True)
     sort_keys = [k[0] for k in sort_items]
     #
-    print [(k, keyw_d[k]) for k in sort_keys]
+    #print [(k, keyw_d[k]) for k in sort_keys]
     #
     wl = sort_keys[1:10]
-    wl.extend(req.keywords)
-    with open(fn, 'w') as of:
-        json.dump(wl, of)
-    
-    return keyw_d
-
+    #wl.extend(req.keywords)
+    #with open(fn, 'w') as of:
+    return wl
 
 
 def test_1():
@@ -105,10 +118,15 @@ def test_1():
     
 
 def test_2():
-    x = handle_request(read_json("data_in.json"), "data_out.json")
-    # print x
+    with open(PATH+"data_out.json", 'w') as of:
+	with open(PATH+"data_in.json") as jf:
+   		 x = handle_request(read_json(sys.stdin))
+                 json.dump(picker(x), sys.stdout)
+    
 
-
+def test_3():
+    print read_json(sys.stdin)
+     
 def main():
     test_2()
 

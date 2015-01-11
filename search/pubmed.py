@@ -50,7 +50,16 @@ def get_pubmed(pmids):
             abstract = 'Abstract is missing.'
         try:
             author_data = paper_xml["MedlineCitation"]['Article']['AuthorList']
-            authors = [a["LastName"] for a in author_data if ('LastName' in a) and len(a['LastName']) > 0]
+            authors = []
+            for entry in author_data:
+                author = ''
+                if 'ForeName' in entry and len(entry['ForeName']) > 0:
+                    author = entry['ForeName']
+                elif 'Initials' in entry and len(entry['Initials']) > 0:
+                    author += ' ' + entry['Initials']
+                if 'LastName' in entry and len(entry['LastName']) > 0:
+                    author += ' ' + entry['LastName']
+                authors.append(author)
         except:
             authors = ['Author data missing']
         
@@ -70,7 +79,7 @@ def get_pubmed(pmids):
 def convertRecordsToJSON(records):
     xml_record_list = []
     for record in records:
-        xml_record = '{"Author":"' + ','.join(record.authors) + '", "URL": "' + record.url + '", "Journal": "' + record.journal + '", "Title": "' + record.title + '", "Excerpt": "' + record.abstract + '", "Year": "' + record.year + '"}'
+        xml_record = '{"Author":"' + ', '.join(record.authors) + '", "URL": "' + record.url + '", "Journal": "' + record.journal + '", "Title": "' + record.title + '", "Excerpt": "' + record.abstract + '", "Year": "' + record.year + '"}'
         xml_record = smart_str(xml_record)
         xml_record_list.append(xml_record)
     return '{"articles": [' + ', '.join(xml_record_list) + ']}'
