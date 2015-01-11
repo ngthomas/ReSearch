@@ -79,7 +79,7 @@ $(document).ready(function(){
 
 	relevantXHR.onreadystatechange=function(){
  		if (relevantXHR.readyState==4 && relevantXHR.status==200){
-			$("#liked").html("Papers (" + viewed_counter + ")")
+			//$("#liked").html("Papers (" + viewed_counter + ")")
 			card=JSON.parse(relevantXHR.responseText);
 			currentCARD = card
 			setTimeout(function(){

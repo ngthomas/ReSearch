@@ -31,7 +31,15 @@ var keywords_data= new Array();
 var viewed_data=   new Array();
 
 
+function reset(){
+	child = process.exec("rm /home/ec2-user/reSearch/search/keyw_d.bin");
+	console.log("reset")
+	viewed_data=   new Array();
+	search_data=   new Array();
+}
+
 function main_search(callback){
+	reset();
 	keywords= keywords_data.toString();
 	console.log("search: " + keywords);
 	result_search = "";
