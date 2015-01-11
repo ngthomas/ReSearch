@@ -9,6 +9,7 @@ import search
 import urllib2
 import unicodedata
 from django.utils.encoding import smart_str, smart_unicode
+from pubmed import *
 
 
 """
@@ -93,12 +94,18 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='')
     parser.add_argument('-q','--query', default=None,type=str,help='query search', required=True)
     parser.add_argument('-r','--rating',default=1,type=str, help='Collect user"s rating', required=False)
+    parser.add_argument('-g', '--google', default=False)
+    parser.add_argument('-p', '--pubmed', default=True)
+
 
 
     opts = parser.parse_args()
 
-    GScholarItems = make_GScholarItems(opts.query)
-    passTopubmed(GScholarItems)
-    PrintInJson(GScholarItems)
+    if opts.google:
+        GScholarItems = make_GScholarItems(opts.query)
+        passTopubmed(GScholarItems)
+        PrintInJson(GScholarItems)
+    else:
+        print get_json_from_pubmed(opts.query)
     #opts.query  ## need regular expression s/AND/+/g s/NOT/-/g 
 
