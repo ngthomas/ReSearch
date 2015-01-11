@@ -6374,7 +6374,10 @@ button.close {
   padding-top: 5em;
 }
 .home-navbar {
-  background: #444;
-  color: #666;
+  background: #9ECAE1;
+  color: #F6FBFE;
+}
+.home-navbar > a {
+  color: #F6FBFE;
 }
 /*# sourceMappingURL=bootstrap.css.map */
