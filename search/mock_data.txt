@@ -1,5 +1,5 @@
 {"id":"3",
 "keywords":["YOU","ARE","LAME"],
-"articles":[{"article":{"title":"We","id":"1","relevant":"relevant"}},
-{"article":{"title":"Are","id":"2","relevant":"relevant"}},
-{"article":{"title":"Awsome","id":"3","relevant":"irrelevant"}}]}
+"articles":[{"title":"We","id":"1","relevance":"1"},
+{"title":"Are","id":"2","relevance":"1"},
+{"title":"Awsome","id":"3","relevance":"-1"}]}

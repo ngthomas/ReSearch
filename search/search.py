@@ -8,10 +8,12 @@ import requests
 Parse text from Google Scholar data
 """
 class GScholarItem:
-    def __init__(self, title, authors="", abstract=""):
+    def __init__(self, title, iid=0, authors="", abstract="", relevance=0):
         self.title = title
+        self.iid = iid
         self.authors = authors.split()
         self.abstract = abstract
+        self.relevance = relevance
 
 
 """
