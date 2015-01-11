@@ -1,0 +1,5 @@
+{"id":"3",
+"keywords":["YOU","ARE","LAME"],
+"articles":[{"article":{"title":"We","id":"1","relevant":"relevant"}},
+{"article":{"title":"Are","id":"2","relevant":"relevant"}},
+{"article":{"title":"Awsome","id":"3","relevant":"irrelevant"}}]}
