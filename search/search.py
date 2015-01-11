@@ -3,6 +3,7 @@
 from Bio import Entrez
 Entrez.email = 'A.N.Other@example.com'
 import requests
+import urllib
 
 
 """
@@ -119,6 +120,7 @@ def get_pubmed_for_geo():
 Recognize biomedical ontology terms in text
 """
 def annotate(text):
+    text = urllib.quote( text.encode('utf-8') )
     url = "http://data.bioontology.org/annotator?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb&text={0}".format(text)
     r = requests.get(url)
     js = r.json()

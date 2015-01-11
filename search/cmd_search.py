@@ -28,7 +28,7 @@ def read_json(fn):
         j_articles = jd['articles']
         article_lst = []
         for a in j_articles:
-            gi = search.GScholarItem(a['title'], a['id'], relevance=a['relevance'])
+            gi = search.GScholarItem(a['title'], a['id'], abstract=a['abstract'], relevance=a['relevance'])
             article_lst.append(gi)
         #
     return Request(jd['id'], keyword_lst, article_lst)
@@ -37,11 +37,24 @@ def read_json(fn):
 
 """
 """
-def handle_request(req, fn, fn_bin="keyw_d.bin"):
+def handle_request(req, fn, fn_bin="keyw_d.bin", fn_geo_txt="geo_pmids_unique.txt", fn_geo_bin="geo.bin"):
     # read GEO pubmed ids and filter/boost keywords based on that
+    geo_pmids = set()
+    try:
+        geo_pmids = pickle.load(open(fn_geo_bin, "rb"))
+    except:
+        with open(fn_geo_txt, 'r') as in_f:
+            for ln in in_f:
+                ln = ln.strip()
+                geo_pmids.add(ln)
+        # save it
+        pickle.dump(geo_pmids, open(fn_geo_bin, "wb"))
+    #
+    print len(geo_pmids)
+    print list(geo_pmids)[0:4]
 
     # read keywords in
-    keyw_d = defaultdict(lambda: 0)
+    keyw_d = defaultdict(lambda: 0.0)
     try:
         keyw_d = pickle.load(open(fn_bin, "rb"))
     except:
@@ -51,13 +64,23 @@ def handle_request(req, fn, fn_bin="keyw_d.bin"):
         print a.title
         pmidl = search.search_pubmed(a)
         print pmidl
+        # use google scholar abstract by default
+        abstract = a.abstract
         if len(pmidl) > 0:
+            relev = float(a.relevance)
             p = pmidl[0]
+            if p in geo_pmids and relev > 0:
+                print "in_geo!"
+                relev *= 1.5
             pm = search.get_pubmed(p)
-            ann_lst = search.annotate(pm.abstract)
-            print ann_lst
-            for t in ann_lst:
-                keyw_d[t] += int(a.relevance)
+            abstract = pm.abstract
+        pprint(abstract)
+        ann_lst = search.annotate(abstract)
+        print ann_lst
+        for t in ann_lst:
+            if t not in keyw_d:
+                keyw_d[t] = 0.0
+            keyw_d[t] += float(relev)
             
     # write keywords out
     sort_x = sorted(keyw_d.items(), key=operator.itemgetter(1), reverse=True)
