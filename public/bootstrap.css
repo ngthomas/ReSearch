@@ -6365,6 +6365,7 @@ button.close {
 #irrelevant:hover {
   color: #A8383B;
   cursor: hand;
+  cursor: pointer;
 }
 #skip {
   color: #F6FBFE;
@@ -6396,15 +6397,41 @@ button.close {
 .brand:hover {
   text-decoration: none;
   color: #4292C6;
+  cursor: hand;
+  cursor: pointer;
 }
-#liked {
+#login, #liked {
   line-height: 20px;
   padding: 15px;
   display: block;
   position: relative;
 }
-#liked:hover {
+#login:hover, #liked:hover {
   color: #4292C6;
   cursor: hand;
+  cursor: pointer;
 }
+.form {
+  padding: 2px;
+}
+.form > input {
+  padding: 2px;
+}
+.form > button {
+  width: 100%;
+}
+.label {
+  font-size: 1em;
+  margin: 0.5em;
+}
+.label:hover {
+  background: #9ECAE1;
+}
+.tags {
+  display: table;
+  margin: auto;
+  margin-top: 0.5em;
+  padding: 1em;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */

@@ -34,8 +34,8 @@ class PubMedItem:
 Search Pubmed for publication, by title / authors
 return pubmed id(s)
 """
-def search_pubmed(gs_item):
-    handle = Entrez.esearch(db="pubmed", term=gs_item.title, field="Title", retmax=2)
+def search_pubmed(title):
+    handle = Entrez.esearch(db="pubmed", term=title, field="Title", retmax=2)
     record = Entrez.read(handle)
     pmids = record["IdList"]
     return pmids

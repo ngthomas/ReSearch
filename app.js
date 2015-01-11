@@ -8,12 +8,6 @@ var process = require('child_process');
 var express = require('express');
 var app = express();
 
-//used for testing
-var stack= new Array();
-stack.push({journal:"Journal of lies",title:"I AM AWSOME",author:"Robert Shelansky, John Smith",abstract:"This is about me"})
-stack.push({journal:"Journal of truth",title:"",author:"",abstract:""})
-stack.push({journal:"Journal of lopsided lollipops",title:"",author:"",abstract:""})
-
 
 
 // uncomment after placing your favicon in /public
@@ -34,56 +28,85 @@ app.get('/', function(req, res) {
 var rated_data=    new Array();
 var search_data=   new Array();
 var keywords_data= new Array();
+var viewed_data=   new Array();
 
 
-app.post('/relevant', function(req, res) {
-	console.log("STUBB: " + JSON.stringify(req.body))
-	article=stack.pop()
-	console.log(article)
-	res.json(article)
-});
-
-function main_search(req,res){
-	keywords= req.body.value;
-
-	process.exec("/usr/bin/python /home/ec2-user/reSearch/search/search_core.py -q '" + keywords+"'", function (error,stdout,stderr){
-		out=JSON.parse(stdout);
-		console.log("arts"+out)
-		for (x in out.articles){
-			console.log("search.out" + out.articles[x])
-			search_data.push(out.articles[x]);
-		}
-		if(error !== null){
-			console.log('exec error', stderr)
-		}
-		console.log("array"  + search_data.length);
-		res.json(search_data.pop());
+function main_search(callback){
+	keywords= keywords_data.toString();
+	console.log("search: " + keywords);
+	result = "";
+	child = process.exec("/usr/bin/python /home/ec2-user/reSearch/search/search_core_faux.py -q '" + keywords+"'");
+	child.stdout.on('data', function(data){
+		result = result + data
 	});
-
-//	var python = process.spwan('echo', "/home/robert/local/reSearch/search/adrian.py");
-//	python.stdout.on('data', function(){output += data});
-//	python.on('close', function(code){
-//		if (code !== 0) {  
-//			console.log("NOOOOO!!!!")
-//		}
-//		console.log(output)
-//	});
+	child.on('close', function(code){
+		//console.log('data: ' + result)
+		console.log('closing code: ' + code);
+		search_data = JSON.parse(result).articles;
+		callback("Success");
+	});
 	
 }
+function main_learn(callback){
+	console.log()
+	child = process.exec("echo'" + keywords_data + "'");
+	child.stdout.on('data', function(data){
+		result = result + data
+	});
+	child.on('close', function(code){
+		console.log('closing code: ' + code)
+		console.log("STUBB: Learn completed")
+		callback("Success")
+	});
 
+}
 
-
+app.post('/relevant', function(req, res) {
+	console.log("STUBB: " + JSON.stringify(req.body.Title + ": " + req.body.State))
+	viewed_data.push(JSON.stringify(req.body))
+	console.log(viewed_data.length + " " + search_data.length)
+	if (req.body.State !== "0"){		
+		if (viewed_data.length%3==0 || search_data.length == 1){
+			main_learn(function(e){
+				console.log("STUBB: I LEARNED")
+			});
+			main_search(function(e){
+				console.log("STUBB: UPDATED SEARCH")
+			});	
+		}
+	}
+	//console.log(article)
+	new_article=search_data.pop()
+	new_article.tags = keywords_data
+	res.json(new_article)
+});
 app.post('/main-search', function(req, res) {
-	console.log("SEARCH: " + JSON.stringify(req.body));
+	//console.log("SEARCH: " + JSON.stringify(req.body));
 	console.log("query is " + req.body.value);
-	main_search(req,res);
+	keywords_data= req.body.value.trim().split(/\s+/);
+	main_search(function(e){
+		if(search_data.length==0){
+			console.log('0 articles returned.')
+			//DO SOMTHING STUBB
+		}else{
+			send= search_data.pop();
+			send.tags=keywords_data;
+			console.log(JSON.stringify(send));
+			console.log(send)
+			res.json(send);
+		}
+	});	
+	//console.log(search_data)
+	//	//console.log("test" + JSON.stringify(send))
+	//res.json(JSON.stringify(send))
 });
 
-app.post('/papers', function(req, res) {
+app.get('/papers', function(req, res) {
 	console.log("Requested papers");
-	var papers = {"nice things": "HI I AM PAPERS"};
-	res.json(papers);
-})
+	console.log("PAPERS: " + viewed_data.length)	
+	console.log(viewed_data)
+	res.json(viewed_data);
+});
 
 app.set('view engine', 'jade')
 
@@ -111,10 +134,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.send('error', {
-        message: err.message,
-        error: {}
-    });
+    res.send();
 });
 
 
